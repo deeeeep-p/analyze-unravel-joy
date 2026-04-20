@@ -1,10 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CreditCard, Bell, LogOut, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import { PhoneFrame } from "@/components/salon/PhoneFrame";
 import { StatusBar } from "@/components/salon/StatusBar";
 import { BottomNav } from "@/components/salon/BottomNav";
-import { useAuth } from "@/hooks/useAuth";
 
 const settings = [
   { icon: UserIcon, label: "Personal information" },
@@ -13,13 +12,8 @@ const settings = [
 ] as const;
 
 const Profile = () => {
-  const { signOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    await signOut();
-    toast.success("Signed out");
-    navigate("/auth", { replace: true });
+  const handleSignOut = () => {
+    toast.success("Signed out (demo)");
   };
 
   return (
