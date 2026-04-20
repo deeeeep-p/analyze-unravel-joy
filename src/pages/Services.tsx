@@ -55,7 +55,7 @@ const Services = () => {
           {list.map((s, i) => (
             <Link
               key={s.id}
-              to="/book"
+              to={`/services/${s.id}`}
               className={`flex items-center gap-3 py-3 ${
                 i < list.length - 1 ? "border-b-[0.5px] border-hairline" : ""
               }`}

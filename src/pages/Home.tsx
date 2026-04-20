@@ -94,7 +94,7 @@ const Home = () => {
           {trendingServices.map((s) => (
             <Link
               key={s.id}
-              to="/book"
+              to={`/services/${s.id}`}
               className="overflow-hidden rounded-[14px] border-[0.5px] border-hairline bg-card transition-transform active:scale-[0.98]"
             >
               <div
