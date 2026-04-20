@@ -162,6 +162,7 @@ const Home = () => {
         <div className="h-5" />
       </div>
 
+      <CartBar />
       <BottomNav />
     </PhoneFrame>
   );
