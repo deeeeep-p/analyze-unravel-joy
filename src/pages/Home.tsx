@@ -5,6 +5,7 @@ import { PhoneFrame } from "@/components/salon/PhoneFrame";
 import { StatusBar } from "@/components/salon/StatusBar";
 import { TopBar, IconButton } from "@/components/salon/TopBar";
 import { BottomNav } from "@/components/salon/BottomNav";
+import { CartBar } from "@/components/salon/CartBar";
 import { Chip } from "@/components/salon/Chip";
 import { ServiceIcon } from "@/components/salon/ServiceIcon";
 import { services, trendingServices } from "@/data/mockData";
@@ -161,6 +162,7 @@ const Home = () => {
         <div className="h-5" />
       </div>
 
+      <CartBar />
       <BottomNav />
     </PhoneFrame>
   );

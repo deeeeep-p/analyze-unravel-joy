@@ -1,11 +1,13 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Sparkles, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, Clock, Sparkles, Heart, Share2, Plus, Check } from "lucide-react";
+import { toast } from "sonner";
 import { PhoneFrame } from "@/components/salon/PhoneFrame";
 import { StatusBar } from "@/components/salon/StatusBar";
 import { TopBar, IconButton } from "@/components/salon/TopBar";
 import { BottomNav } from "@/components/salon/BottomNav";
 import { ServiceIcon } from "@/components/salon/ServiceIcon";
 import { services, trendingServices } from "@/data/mockData";
+import { useCart } from "@/hooks/useCart";
 
 const allServices = [...services, ...trendingServices];
 
@@ -19,7 +21,25 @@ const perks = [
 const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { add, has } = useCart();
   const service = allServices.find((s) => s.id === id);
+  const inCart = service ? has(service.id) : false;
+
+  const handleAdd = () => {
+    if (!service) return;
+    if (inCart) {
+      toast.message("Already in your cart", { description: service.name });
+      return;
+    }
+    add(service);
+    toast.success("Added to cart", { description: service.name });
+  };
+
+  const handleBookNow = () => {
+    if (!service) return;
+    if (!inCart) add(service);
+    navigate("/book");
+  };
 
   if (!service) {
     return (
@@ -178,20 +198,49 @@ const ServiceDetail = () => {
       </div>
 
       {/* Sticky CTA */}
-      <div className="absolute inset-x-0 bottom-[68px] border-t-[0.5px] border-hairline bg-cream/95 px-4 py-3 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="flex-shrink-0">
+      <div className="sticky bottom-0 z-10 border-t-[0.5px] border-hairline bg-cream/95 px-4 py-3 backdrop-blur-sm">
+        <div className="mb-2 flex items-center justify-between">
+          <div>
             <div className="text-[9px] uppercase tracking-[0.1em] text-ink-light">From</div>
             <div className="font-serif text-[22px] leading-none text-gold">
               ₹{service.price}
             </div>
           </div>
-          <Link
-            to="/book"
-            className="flex-1 rounded-full bg-ink py-3 text-center text-[12px] uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+          <div className="text-right">
+            <div className="text-[9px] uppercase tracking-[0.1em] text-ink-light">Duration</div>
+            <div className="text-[13px] font-medium text-ink">{service.durationMin} min</div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleAdd}
+            aria-pressed={inCart}
+            className={`flex flex-1 items-center justify-center gap-1.5 rounded-full border-[0.5px] py-3 text-[11px] uppercase tracking-[0.08em] transition-colors ${
+              inCart
+                ? "border-gold bg-gold-pale text-gold"
+                : "border-ink/20 bg-cream text-ink hover:border-ink/40"
+            }`}
           >
-            Book this ritual
-          </Link>
+            {inCart ? (
+              <>
+                <Check className="h-3.5 w-3.5" strokeWidth={2} />
+                Added
+              </>
+            ) : (
+              <>
+                <Plus className="h-3.5 w-3.5" strokeWidth={2} />
+                Add to cart
+              </>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={handleBookNow}
+            className="flex-1 rounded-full bg-ink py-3 text-[11px] uppercase tracking-[0.08em] text-white transition-opacity hover:opacity-90"
+          >
+            Book now
+          </button>
         </div>
       </div>
 

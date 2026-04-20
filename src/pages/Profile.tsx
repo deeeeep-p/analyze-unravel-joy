@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { PhoneFrame } from "@/components/salon/PhoneFrame";
 import { StatusBar } from "@/components/salon/StatusBar";
 import { BottomNav } from "@/components/salon/BottomNav";
+import { CartBar } from "@/components/salon/CartBar";
 
 const settings = [
   { icon: UserIcon, label: "Personal information" },
@@ -127,6 +128,7 @@ const Profile = () => {
         <div className="h-5" />
       </div>
 
+      <CartBar />
       <BottomNav />
     </PhoneFrame>
   );
