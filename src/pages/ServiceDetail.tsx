@@ -1,11 +1,13 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Sparkles, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, Clock, Sparkles, Heart, Share2, Plus, Check } from "lucide-react";
+import { toast } from "sonner";
 import { PhoneFrame } from "@/components/salon/PhoneFrame";
 import { StatusBar } from "@/components/salon/StatusBar";
 import { TopBar, IconButton } from "@/components/salon/TopBar";
 import { BottomNav } from "@/components/salon/BottomNav";
 import { ServiceIcon } from "@/components/salon/ServiceIcon";
 import { services, trendingServices } from "@/data/mockData";
+import { useCart } from "@/hooks/useCart";
 
 const allServices = [...services, ...trendingServices];
 
