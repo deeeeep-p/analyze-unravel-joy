@@ -2,95 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* HIPSTER salon — luxury cream / ink / gold design system. All colors in HSL. */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand surfaces */
+    --cream: 36 35% 93%;          /* #F5F0E8 */
+    --cream-dark: 38 27% 89%;     /* #EDE8DC */
+    --white: 36 50% 98%;          /* #FDFAF5 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Ink (dark text & dark cards) */
+    --ink: 30 11% 9%;             /* #1A1714 */
+    --ink-mid: 33 11% 21%;        /* #3D3830 */
+    --ink-light: 30 8% 44%;       /* #7A7268 */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Gold accents */
+    --gold: 35 36% 54%;           /* #B8965A */
+    --gold-light: 33 49% 65%;     /* #D4AF7A */
+    --gold-pale: 42 56% 89%;      /* #F0E8D5 */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Hairlines */
+    --hairline: 39 27% 80%;       /* #D8D0BF */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* shadcn semantic tokens mapped to brand */
+    --background: var(--cream);
+    --foreground: var(--ink);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --card: var(--white);
+    --card-foreground: var(--ink);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --popover: var(--white);
+    --popover-foreground: var(--ink);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --primary: var(--ink);
+    --primary-foreground: var(--white);
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --secondary: var(--cream-dark);
+    --secondary-foreground: var(--ink);
 
-    --radius: 0.5rem;
+    --muted: var(--cream-dark);
+    --muted-foreground: var(--ink-light);
 
-    --sidebar-background: 0 0% 98%;
+    --accent: var(--gold);
+    --accent-foreground: var(--white);
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --border: var(--hairline);
+    --input: var(--hairline);
+    --ring: var(--gold);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --radius: 0.875rem;
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: var(--cream);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--ink);
+    --sidebar-primary-foreground: var(--white);
+    --sidebar-accent: var(--cream-dark);
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--hairline);
+    --sidebar-ring: var(--gold);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Single-mode app — keep parity */
+    --background: var(--cream);
+    --foreground: var(--ink);
   }
 }
 
@@ -99,7 +77,33 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  .font-serif-display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+}
+
+@layer utilities {
+  .hairline {
+    border-color: hsl(var(--hairline));
+    border-width: 0.5px;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+
+  .screen-fade {
+    animation: screenFade 0.28s ease both;
+  }
+  @keyframes screenFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
