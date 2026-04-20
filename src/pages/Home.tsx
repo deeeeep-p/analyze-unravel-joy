@@ -7,12 +7,18 @@ import { TopBar, IconButton } from "@/components/salon/TopBar";
 import { BottomNav } from "@/components/salon/BottomNav";
 import { Chip } from "@/components/salon/Chip";
 import { ServiceIcon } from "@/components/salon/ServiceIcon";
-import { trendingServices } from "@/data/mockData";
+import { services, trendingServices } from "@/data/mockData";
 
 const categories = ["All", "Hair", "Skin", "Spa", "Nails"] as const;
+type Category = (typeof categories)[number];
 
 const Home = () => {
-  const [active, setActive] = useState<(typeof categories)[number]>("All");
+  const [active, setActive] = useState<Category>("All");
+
+  const pool = [...trendingServices, ...services].filter(
+    (s, i, arr) => arr.findIndex((x) => x.id === s.id) === i,
+  );
+  const filtered = active === "All" ? trendingServices : pool.filter((s) => s.category === active);
 
   return (
     <PhoneFrame>
@@ -84,40 +90,51 @@ const Home = () => {
 
         {/* Trending now */}
         <div className="flex items-baseline justify-between px-5 pb-2.5 pt-5">
-          <h3 className="font-serif text-xl font-normal text-ink">Trending now</h3>
+          <h3 className="font-serif text-xl font-normal text-ink">
+            {active === "All" ? "Trending now" : `${active} rituals`}
+          </h3>
           <Link to="/services" className="text-[11px] tracking-[0.04em] text-gold">
             See all →
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5 px-4">
-          {trendingServices.map((s) => (
-            <Link
-              key={s.id}
-              to={`/services/${s.id}`}
-              className="overflow-hidden rounded-[14px] border-[0.5px] border-hairline bg-card transition-transform active:scale-[0.98]"
-            >
-              <div
-                className="flex h-20 items-center justify-center"
-                style={{ backgroundColor: s.thumbBg }}
+        {filtered.length === 0 ? (
+          <div className="mx-4 rounded-[14px] border-[0.5px] border-dashed border-hairline bg-card px-4 py-8 text-center">
+            <div className="mb-1 font-serif text-[15px] text-ink">Coming soon</div>
+            <p className="text-[11px] text-ink-light">
+              New {active.toLowerCase()} rituals are being curated.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2.5 px-4">
+            {filtered.map((s) => (
+              <Link
+                key={s.id}
+                to={`/services/${s.id}`}
+                className="overflow-hidden rounded-[14px] border-[0.5px] border-hairline bg-card transition-transform active:scale-[0.98]"
               >
-                <ServiceIcon name={s.icon} className="h-8 w-8 opacity-30" />
-              </div>
-              <div className="px-2.5 pb-3 pt-2.5">
-                <div className="mb-0.5 text-[12px] font-medium leading-tight text-ink">
-                  {s.name}
+                <div
+                  className="flex h-20 items-center justify-center"
+                  style={{ backgroundColor: s.thumbBg }}
+                >
+                  <ServiceIcon name={s.icon} className="h-8 w-8 opacity-30" />
                 </div>
-                <div className="mb-2 text-[10px] leading-tight text-ink-light">{s.desc}</div>
-                <div className="flex items-center justify-between">
-                  <span className="font-serif text-base text-gold">₹{s.price}</span>
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ink">
-                    <ArrowRight className="h-3 w-3 text-white" strokeWidth={1.5} />
+                <div className="px-2.5 pb-3 pt-2.5">
+                  <div className="mb-0.5 text-[12px] font-medium leading-tight text-ink">
+                    {s.name}
+                  </div>
+                  <div className="mb-2 text-[10px] leading-tight text-ink-light">{s.desc}</div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif text-base text-gold">₹{s.price}</span>
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-ink">
+                      <ArrowRight className="h-3 w-3 text-white" strokeWidth={1.5} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Divider */}
         <div className="mx-5 my-4 h-px bg-hairline" />
